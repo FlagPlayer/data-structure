@@ -36,6 +36,13 @@ public class SingleLinkedListDemo {
         //显示
         singleLinkedList.showList();
 
+        //单链表的反转
+        reversalSetList(singleLinkedList.getHead());
+        System.out.println("测试单链表的反转.....");
+        //显示
+        singleLinkedList.showList();
+
+
         HeroNode newHeroNode = new HeroNode(2, "卢俊义666", "玉麒麟666");
         singleLinkedList.update(newHeroNode);
 
@@ -54,8 +61,10 @@ public class SingleLinkedListDemo {
         //求单链表中有效节点的个数
         System.out.println("1.有效节点个数：" + getLengthOfNode(singleLinkedList.getHead()));
 
-
+        //查找单链表中的倒数第k个节点
         System.out.println("----》倒数第K个节点：" + getLastNodeOfK(singleLinkedList.getHead(), 1));
+
+
     }
 
     /**
@@ -79,6 +88,45 @@ public class SingleLinkedListDemo {
             current = current.next;
         }
         return count;
+    }
+
+    /**
+     * 将单链表反转
+     * 1。先定义一个节点reverseHead = new HeroNode();
+     * 2。从头到尾遍历原来的链表，每遍历一个节点，就将其取出，并放在新的链表reverseHead的最前端
+     * 3。将原来链表的head.next = reverseHead.next
+     */
+    public static void reversalSetList(HeroNode head) {
+        //如果当前链表为空，或者只有一个节点，无须反转，直接返回
+        if (head.next == null || head.next.next == null) {
+            return;
+        }
+
+        //定一个辅助的指针(变量),帮助我们遍历原来的链表
+        HeroNode curr = head.next;
+
+        //指向当前节点【curr】的下一个节点
+        HeroNode next = null;
+
+        //新的反转后的链表数据存储
+        HeroNode reversalHeroNode = new HeroNode(0, "", "");
+
+        //遍历原来的链表，每遍历一个节点，就将其取出，并放在链表reversalHeroNode的最前端
+        while (curr != null) {
+            //先暂时保留当前节点的下一个节点
+            next = curr.next;
+
+            //将curr的下一个节点指向新的链表的最前端
+            curr.next = reversalHeroNode.next;
+
+            //将curr连接到新的链表
+            reversalHeroNode.next = curr;
+
+            //curr后移
+            curr = next;
+        }
+        //将head.next指向reversalHeroNode.next，实现单链表的反转
+        head.next = reversalHeroNode.next;
     }
 
     /**
